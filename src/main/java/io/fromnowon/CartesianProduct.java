@@ -18,13 +18,11 @@ public class CartesianProduct {
         testSubject.setBrandName("品牌-波司登");
         testSubject.setCountry("国家-中国");
         testSubject.setState("状态-在售");
-        testSubject.setLevel("级别-高级");
 
         LinkedList<Function<? super TestSubject, ? extends String>> functionLinkedList = new LinkedList<>();
         functionLinkedList.offer(TestSubject::getBrandName);
         functionLinkedList.offer(TestSubject::getCountry);
         functionLinkedList.offer(TestSubject::getState);
-        functionLinkedList.offer(TestSubject::getLevel);
 
         originFunctionLinkedList = new LinkedList<>(functionLinkedList);
 
@@ -110,9 +108,6 @@ public class CartesianProduct {
                 break;
             case 2:
                 type.setState(group);
-                break;
-            case 3:
-                type.setLevel(group);
                 break;
             default:
 

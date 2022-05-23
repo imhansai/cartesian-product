@@ -27,11 +27,6 @@ public class Type implements Cloneable {
      */
     private String state;
 
-    /**
-     * 级别
-     */
-    private String level;
-
     @Override
     public Type clone() {
         try {
@@ -42,5 +37,10 @@ public class Type implements Cloneable {
             throw new AssertionError();
         }
     }
+
+    // /**
+    //  * 级别
+    //  */
+    // private String level;
 
 }
