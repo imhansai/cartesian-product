@@ -32,6 +32,11 @@ public class Type implements Cloneable {
      */
     private String level;
 
+    /**
+     * 事业部
+     */
+    private String team;
+
     @Override
     public Type clone() {
         try {
