@@ -33,11 +33,6 @@ public class TestSubject {
     private String level;
 
     /**
-     * 事业部
-     */
-    private String team;
-
-    /**
      * 数据
      */
     private Integer data;
