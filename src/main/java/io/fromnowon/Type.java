@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class Type {
+public class Type implements Cloneable {
 
     /**
      * 品牌
@@ -26,6 +26,17 @@ public class Type {
      * 状态
      */
     private String state;
+
+    @Override
+    public Type clone() {
+        try {
+            Type clone = (Type) super.clone();
+            // TODO: 复制此处的可变状态，这样此克隆就不能更改初始克隆的内部
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 
     // /**
     //  * 级别

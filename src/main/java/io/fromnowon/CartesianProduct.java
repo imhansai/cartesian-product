@@ -1,9 +1,6 @@
 package io.fromnowon;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -31,26 +28,35 @@ public class CartesianProduct {
 
         List<TestSubject> testSubjectList = List.of(testSubject);
 
+        // 为了区分结果
         Type tempType = new Type();
-        extracted(tempType, functionLinkedList, testSubjectList);
+        // 控制遍历
+        Boolean insideLoop = false;
+        extracted(tempType, functionLinkedList, testSubjectList, insideLoop);
     }
 
     private static void extracted(Type type,
                                   LinkedList<Function<? super TestSubject, ? extends String>> functionLinkedList,
-                                  List<TestSubject> testSubjectList) {
+                                  List<TestSubject> testSubjectList,
+                                  Boolean insideLoop) {
         Function<? super TestSubject, ? extends String> function = functionLinkedList.poll();
         if (Objects.isNull(function)) {
             return;
         }
 
-        LinkedList<Function<? super TestSubject, ? extends String>> tempFunctionLinkedList = new LinkedList<>(functionLinkedList);
+        // 为了换个维度重头遍历
+        LinkedList<Function<? super TestSubject, ? extends String>> tempFunctionLinkedList = null;
+        if (!insideLoop) {
+            tempFunctionLinkedList = new LinkedList<>(functionLinkedList);
+        }
 
         // 内部横向遍历
-        List<LinkedList<Function<? super TestSubject, ? extends String>>> tempFunctionLinkedListList = new LinkedList<>();
-        do {
-            tempFunctionLinkedListList.add(functionLinkedList);
+        List<LinkedList<Function<? super TestSubject, ? extends String>>> tempFunctionLinkedListList = new ArrayList<>();
+        while (!functionLinkedList.isEmpty()) {
+            LinkedList<Function<? super TestSubject, ? extends String>> list = new LinkedList<>(functionLinkedList);
+            tempFunctionLinkedListList.add(list);
             functionLinkedList.poll();
-        } while (!functionLinkedList.isEmpty());
+        }
 
         Map<? extends String, List<TestSubject>> listMap = testSubjectList.stream().collect(Collectors.groupingBy(function));
         for (Map.Entry<? extends String, List<TestSubject>> entry : listMap.entrySet()) {
@@ -61,12 +67,20 @@ public class CartesianProduct {
             System.out.println("type = " + type);
 
             for (LinkedList<Function<? super TestSubject, ? extends String>> functions : tempFunctionLinkedListList) {
-                extracted(type, functions, testSubjects);
+                // 结果重置
+                Type tempType = type.clone();
+                extracted(type, functions, testSubjects, true);
+                type = tempType;
             }
+
+        }
+
+        if (insideLoop) {
+            return;
         }
 
         Type tempType = new Type();
-        extracted(tempType, tempFunctionLinkedList, testSubjectList);
+        extracted(tempType, tempFunctionLinkedList, testSubjectList, false);
     }
 
     private static void handlerType(Type type,
