@@ -30,17 +30,10 @@ public class Type implements Cloneable {
     @Override
     public Type clone() {
         try {
-            Type clone = (Type) super.clone();
-            // TODO: 复制此处的可变状态，这样此克隆就不能更改初始克隆的内部
-            return clone;
+            return (Type) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
+            throw new AssertionError("克隆 Type 异常", e);
         }
     }
-
-    // /**
-    //  * 级别
-    //  */
-    // private String level;
 
 }

@@ -2,6 +2,7 @@ package io.fromnowon;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 实验对象
@@ -11,6 +12,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class TestSubject {
+
+    /**
+     * id
+     */
+    @ToString.Exclude
+    private String id;
 
     /**
      * 品牌
@@ -26,11 +33,6 @@ public class TestSubject {
      * 状态
      */
     private String state;
-
-    /**
-     * 级别
-     */
-    private String level;
 
     /**
      * 数据
